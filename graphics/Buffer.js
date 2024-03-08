@@ -8,8 +8,8 @@ class Buffer {
 			1, 1, 0
 		]);
 		gl.bindBuffer(type, buffer);
-		// gl.bufferData(type, size, usage);
-		gl.bufferData(type, data, usage);
+		gl.bufferData(type, size, usage);
+		// gl.bufferData(type, data, usage);
 		gl.bindBuffer(type, null);
 
 		this.id = buffer;
@@ -17,12 +17,10 @@ class Buffer {
 		this.size = size;
 		this.usage = usage;
 	}
-	setData(gl, dstByteOffset, srcData, srcOffset, length) {
+	setData(gl, dstByteOffset, srcData, srcOffset, size) {
+		const length = size / srcData.BYTES_PER_ELEMENT;
 		this._bind(gl);
-
-		gl.bufferData(this.type, srcData, this.usage);
-		// gl.bufferSubData(this.type, dstByteOffset, srcData, srcOffset, length);
-		// , 9);
+		gl.bufferSubData(this.type, dstByteOffset, srcData, srcOffset, length);
 		this._unbind(gl);
 	}
 	_bind(gl) {

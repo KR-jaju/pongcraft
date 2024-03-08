@@ -3,6 +3,7 @@ class Program {
 	constructor(gl) {
 		const	program = gl.createProgram();
 
+		gl.bindAttribLocation(program, 0, "position");
 		this.id = program;
 	}
 	attach(gl, shader) {
@@ -10,7 +11,6 @@ class Program {
 	}
 	link(gl) {
 		gl.linkProgram(this.id);
-		console.log("program:" + gl.getProgramInfoLog(this.id));
 	}
 	use(gl) {
 		gl.useProgram(this.id);
