@@ -2,8 +2,14 @@
 class Buffer {
 	constructor(gl, type, size, usage) {
 		const	buffer = gl.createBuffer();
+		const	data = new Float32Array([
+			-1, -1, 0,
+			1, -1, 0,
+			1, 1, 0
+		]);
 		gl.bindBuffer(type, buffer);
-		gl.bufferData(type, size, usage);
+		// gl.bufferData(type, size, usage);
+		gl.bufferData(type, data, usage);
 		gl.bindBuffer(type, null);
 
 		this.id = buffer;
@@ -15,7 +21,7 @@ class Buffer {
 		this._bind(gl);
 
 		gl.bufferData(this.type, srcData, this.usage);
-		// gl.bufferSubData(this.type, dstByteOffset, srcData, srcOffset);
+		// gl.bufferSubData(this.type, dstByteOffset, srcData, srcOffset, length);
 		// , 9);
 		this._unbind(gl);
 	}

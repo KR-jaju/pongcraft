@@ -19,21 +19,24 @@
 				static	program = null;
 				static entry() {
 					const canvas = document.getElementById("canvas");
-					canvas.width = document.body.clientWidth;
-					canvas.height = document.body.clientHeight;
+					// canvas.width = document.body.clientWidth;
+					// canvas.height = document.body.clientHeight;
+					canvas.width = 200;
+					canvas.height = 200;
 					const	gl = canvas.getContext("webgl2");
 					if (!gl) {
 						alert("Webgl2 not supported!");
 					}
 					// 크기 대응 필요
 
+					gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 					const vs = new Shader(gl, gl.VERTEX_SHADER);
 					const fs = new Shader(gl, gl.FRAGMENT_SHADER);
 					vs.shaderSource(gl, `#version 300 es
 
-					in vec4	position;
+					in vec4	ppp;
 					void	main() {
-						gl_Position = position;
+						gl_Position = ppp;
 					}
 					`);
 					fs.shaderSource(gl, `#version 300 es
@@ -53,48 +56,53 @@
 					program.link(gl);
 
 					const	data = new Float32Array([
-						-1, -1, 0,
-						1, -1, 0,
-						1, 1, 0
-					]);
+					0.8, 0.8, 0.0, -0.8, 0.8, 0.0, 0.8, -0.8, 0.0, -0.8, -0.8, 0.0,
+					])
 					const	vbo_buffer = new Buffer(gl, gl.ARRAY_BUFFER, 36, gl.STATIC_DRAW);
 					// alert(data.length * data.BYTES_PER_ELEMENT);
-					vbo_buffer.setData(gl, 0, data, 0, 36);
+					vbo_buffer.setData(gl, 0, data, 0, 48);
 					// data.length * data.BYTES_PER_ELEMENT);
 
 					const	vbo = new VertexBuffer(gl, vbo_buffer, 3, gl.FLOAT, false);
 					const	vao = new VertexArray(gl);
-				
-					let loc = gl.getAttribLocation(program.id, "position");
+					let loc = gl.getAttribLocation(program.id, "ppp");
 					console.log("loc:" + loc);
-					// vao.attach(gl, vbo, loc);
+					vao.attach(gl, vbo, loc);
 
 					Main.gl = gl;
 					Main.program = program;
 					Main.vbo_buffer = vbo_buffer;
 					Main.vbo = vbo;
 					Main.vao = vao;
-					Main.gl.clearColor(0.4, 0.4, 0.4, 1.0);
-					// gl.viewport(0, 0, canvas.width, canvas.height);
+					// Main.gl.clearColor(0.4, 0.4, 0.4, 1.0);
+					// gl.clearColor(0.0, 0.0, 0.0, 1.0);
+					// // gl.viewport(0, 0, canvas.width, canvas.height);
+					// gl.enable(gl.DEPTH_TEST); // Enable depth testing
+					// gl.depthFunc(gl.LEQUAL); // Near things obscure far things
+					// gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+					// gl.clear(gl.COLOR_BUFFER_BIT);
+					// Main.vao._bind(Main.gl);
+					// vbo._bind(gl, gl.getAttribLocation(program.id, "ppp"));
+					
+					// program.use(gl);
+					// gl.drawArrays(gl.TRAINGLES, 0, 3);
 					requestAnimationFrame(Main.update);
 				}
 				static update() {
-					// DefaultFramebuffer.setClearColor(0.4, 0.4, 0.4, 1.0);
-					// DefaultFramebuffer.clearColor(Main.gl);
+					DefaultFramebuffer.setClearColor(0.4, 0.4, 0.4, 1.0);
+					DefaultFramebuffer.clearColor(Main.gl);
 					Main.gl.clear(Main.gl.COLOR_BUFFER_BIT);
-					// Main.vao._bind(Main.gl);
-					let loc = Main.gl.getAttribLocation(Main.program.id, "position");
-					console.log(loc);
-					Main.vbo._bind(Main.gl, loc);
+					Main.vao._bind(Main.gl);
+					// Main.vbo._bind(Main.gl, Main.gl.getAttribLocation(Main.program.id, "ppp"));
 					Main.program.use(Main.gl);
-					Main.gl.drawArrays(Main.gl.TRAINGLES, 0, 3);
-					// Main.vao._unbind(Main.gl);
-					// console.log(Main.gl.getError());
+					Main.gl.drawArrays(Main.gl.TRIANGLE_STRIP, 0, 4);
+					Main.vao._unbind(Main.gl);
+					console.log(Main.gl.getError());
 					requestAnimationFrame(Main.update);
 				}
 			}
-			requestAnimationFrame(Main.entry);
-			// Main.entry();
+			// requestAnimationFrame(Main.entry);
+			Main.entry();
 		</script>
 	</body>
 </html>
