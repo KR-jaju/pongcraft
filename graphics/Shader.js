@@ -15,12 +15,13 @@ class Shader {
 		const shader = gl.createShader(type);
 
 		this.id = shader;
+		this.gl = gl;
 	}
-	shaderSource(gl, source) {
-		gl.shaderSource(this.id, source);
+	shaderSource(source) {
+		this.gl.shaderSource(this.id, source);
 	}
-	compile(gl) {
-		gl.compileShader(this.id);
-		console.log(gl.getShaderInfoLog(this.id));
+	compile() {
+		this.gl.compileShader(this.id);
+		console.log(this.gl.getShaderInfoLog(this.id));
 	}
 }

@@ -1,18 +1,25 @@
 
 class Program {
+	static attribute_location = {
+		"position": 0
+	};
 	constructor(gl) {
 		const	program = gl.createProgram();
 
-		gl.bindAttribLocation(program, 0, "position");
+		for (const attribute in Program.attribute_location) {
+			const	location = Program.attribute_location[attribute];
+			gl.bindAttribLocation(program, location, attribute);
+		}
 		this.id = program;
+		this.gl = gl;
 	}
-	attach(gl, shader) {
-		gl.attachShader(this.id, shader.id);
+	attach(shader) {
+		this.gl.attachShader(this.id, shader.id);
 	}
-	link(gl) {
-		gl.linkProgram(this.id);
+	link() {
+		this.gl.linkProgram(this.id);
 	}
 	use(gl) {
-		gl.useProgram(this.id);
+		this.gl.useProgram(this.id);
 	}
 }

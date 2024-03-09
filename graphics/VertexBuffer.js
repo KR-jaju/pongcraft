@@ -7,11 +7,12 @@ class VertexBuffer {
 		this.normalized = normalized;
 		this.stride = stride;
 		this.offset = offset;
+		this.gl = gl;
 	}
-	_bind(gl, idx) {
-		this.buffer._bind(gl);
-		gl.enableVertexAttribArray(idx);
-		gl.vertexAttribPointer(idx, this.size, this.type, this.normalized, this.stride, this.offset);
+	_bind(idx) {
+		this.buffer._bind();
+		this.gl.enableVertexAttribArray(idx);
+		this.gl.vertexAttribPointer(idx, this.size, this.type, this.normalized, this.stride, this.offset);
 	}
 }
 //gl.bindBuffer(buffer);

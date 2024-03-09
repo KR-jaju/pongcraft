@@ -8,6 +8,7 @@
 		<script src="graphics/DefaultFramebuffer.js"></script>
 		<script src="graphics/VertexArray.js"></script>
 		<script src="graphics/VertexBuffer.js"></script>
+		<script src="graphics/Mesh.js"></script>
 		<!--<script type="module" src="graphics/graphics.js"></script>-->
 		<script>
 			"use strict";
@@ -17,6 +18,7 @@
 				static	vbo = null;
 				static	vao = null;
 				static	program = null;
+				static	mesh = null;
 				static entry() {
 					const canvas = document.getElementById("canvas");
 					// canvas.width = document.body.clientWidth;
@@ -32,55 +34,48 @@
 					gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 					const vs = new Shader(gl, gl.VERTEX_SHADER);
 					const fs = new Shader(gl, gl.FRAGMENT_SHADER);
-					vs.shaderSource(gl, `#version 300 es
+					vs.shaderSource(`#version 300 es
 
 					in vec4	position;
 					void	main() {
 						gl_Position = position;
-					}
-					`);
-					fs.shaderSource(gl, `#version 300 es
+					}`);
+					fs.shaderSource(`#version 300 es
 					precision mediump float;
 					
 					out vec4	fragColor;
 
 					void	main() {
 						fragColor = vec4(1.0, 0.0, 0.0, 1.0);
-					}
-					`);
-					vs.compile(gl);
-					fs.compile(gl);
+					}`);
+					vs.compile();
+					fs.compile();
 					const program = new Program(gl);
-					program.attach(gl, vs);
-					program.attach(gl, fs);
-					program.link(gl);
+					program.attach(vs);
+					program.attach(fs);
+					program.link();
 
 					const	data = new Float32Array([
 					0.8, 0.8, 0.0, -0.8, 0.8, 0.0, 0.8, -0.8, 0.0, -0.8, -0.8, 0.0,
 					])
-					const	vbo_buffer = new Buffer(gl, gl.ARRAY_BUFFER, 48, gl.STATIC_DRAW);
-					vbo_buffer.setData(gl, 0, data, 0, 48);
-
-					const	vbo = new VertexBuffer(gl, vbo_buffer, 3, gl.FLOAT, false);
-					const	vao = new VertexArray(gl);
-					vao.attach(gl, vbo, 0);
+					const	vertex_buffer = new Buffer(gl, gl.ARRAY_BUFFER, 48, gl.STATIC_DRAW);
+					vertex_buffer.setData(0, data, 0, 48);
+					const	position_view = new VertexBuffer(gl, vertex_buffer, 3, gl.FLOAT, false);
+					const	buffer_view = {
+						"position": position_view
+					};
+					const	mesh = Mesh.from(gl, buffer_view, [0, 1, 2]);
 
 					Main.gl = gl;
 					Main.program = program;
-					Main.vbo_buffer = vbo_buffer;
-					Main.vbo = vbo;
-					Main.vao = vao;
+					Main.mesh = mesh;
 					requestAnimationFrame(Main.update);
 				}
 				static update() {
 					DefaultFramebuffer.setClearColor(0.4, 0.4, 0.4, 1.0);
 					DefaultFramebuffer.clearColor(Main.gl);
 					Main.gl.clear(Main.gl.COLOR_BUFFER_BIT);
-					Main.vao._bind(Main.gl);
-					Main.program.use(Main.gl);
-					Main.gl.drawArrays(Main.gl.TRIANGLE_STRIP, 0, 4);
-					Main.vao._unbind(Main.gl);
-					// console.log(Main.gl.getError());
+					Main.mesh.draw(Main.program);
 					requestAnimationFrame(Main.update);
 				}
 			}
