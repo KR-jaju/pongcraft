@@ -35,18 +35,23 @@
 					const vs = new Shader(gl, gl.VERTEX_SHADER);
 					const fs = new Shader(gl, gl.FRAGMENT_SHADER);
 					vs.shaderSource(`#version 300 es
-
 					in vec4	position;
+					in vec2	uv;
+
+					out vec2	f_uv;
 					void	main() {
 						gl_Position = position;
+						f_uv = uv;
 					}`);
 					fs.shaderSource(`#version 300 es
 					precision mediump float;
+
+					in vec2	f_uv;
 					
 					out vec4	fragColor;
 
 					void	main() {
-						fragColor = vec4(1.0, 0.0, 0.0, 1.0);
+						fragColor = vec4(f_uv, 0.0, 1.0);
 					}`);
 					vs.compile();
 					fs.compile();
@@ -57,14 +62,21 @@
 
 					const	data = new Float32Array([
 					0.8, 0.8, 0.0, -0.8, 0.8, 0.0, 0.8, -0.8, 0.0, -0.8, -0.8, 0.0,
-					])
+					]);
+					const	uv = new Float32Array([
+						1.0, 1.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0
+					]);
 					const	vertex_buffer = new Buffer(gl, gl.ARRAY_BUFFER, 48, gl.STATIC_DRAW);
 					vertex_buffer.setData(0, data, 0, 48);
+					const	uv_buffer = new Buffer(gl, gl.ARRAY_BUFFER, 32, gl.STATIC_DRAW);
+					uv_buffer.setData(0, uv, 0, 32);
 					const	position_view = new VertexBuffer(gl, vertex_buffer, 3, gl.FLOAT, false);
+					const	uv_view = new VertexBuffer(gl, uv_buffer, 2, gl.FLOAT, false);
 					const	buffer_view = {
-						"position": position_view
+						"position": position_view,
+						"uv": uv_view
 					};
-					const	mesh = Mesh.from(gl, buffer_view, [0, 1, 2]);
+					const	mesh = Mesh.from(gl, buffer_view, [0, 1, 2, 1, 2, 3]);
 
 					Main.gl = gl;
 					Main.program = program;

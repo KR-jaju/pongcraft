@@ -7,7 +7,7 @@ class Mesh {
 		const	index_data = new Int32Array(indices);
 		const	index_buffer = new Buffer(gl, gl.ELEMENT_ARRAY_BUFFER, index_count * 4, gl.STATIC_DRAW);
 
-		index_buffer.setData(0, index_data, 0, index_count);
+		index_buffer.setData(0, index_data, 0, index_count * 4);
 		vertex_array._bind();
 		index_buffer._bind();
 		vertex_array._unbind();
@@ -19,10 +19,10 @@ class Mesh {
 		this.gl = gl;
 	}
 	attach(attrib_name, vertex_buffer) {
-		this.vertex_array._bind();
 		if (!(attrib_name in Program.attribute_location))
 			throw new Error("Undefined attribute name");
 		const location = Program.attribute_location[attrib_name];
+		this.vertex_array._bind();
 		vertex_buffer._bind(location);
 		this.vertex_array._unbind();
 	}
@@ -34,6 +34,7 @@ class Mesh {
 	
 		program.use();
 		this.vertex_array._bind();
+		// this.gl.drawElements(mode, count, type, offset);
 		this.gl.drawElements(mode, count, type, offset);
 		this.vertex_array._unbind();
 	}

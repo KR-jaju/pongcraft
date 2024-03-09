@@ -1,7 +1,8 @@
 
 class Program {
 	static attribute_location = {
-		"position": 0
+		"position": 0,
+		"uv": 1
 	};
 	constructor(gl) {
 		const	program = gl.createProgram();
