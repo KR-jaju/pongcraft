@@ -20,7 +20,7 @@ class Program {
 	link() {
 		this.gl.linkProgram(this.id);
 	}
-	use(gl) {
+	use() {
 		this.gl.useProgram(this.id);
 	}
 }

@@ -9,6 +9,8 @@
 		<script src="graphics/VertexArray.js"></script>
 		<script src="graphics/VertexBuffer.js"></script>
 		<script src="graphics/Mesh.js"></script>
+		<script src="graphics/Texture2D.js"></script>
+		<script src="util/Loader.js"></script>
 		<!--<script type="module" src="graphics/graphics.js"></script>-->
 		<script>
 			"use strict";
@@ -19,10 +21,9 @@
 				static	vao = null;
 				static	program = null;
 				static	mesh = null;
+				static	texture = null;
 				static entry() {
 					const canvas = document.getElementById("canvas");
-					// canvas.width = document.body.clientWidth;
-					// canvas.height = document.body.clientHeight;
 					canvas.width = 200;
 					canvas.height = 200;
 					const	gl = canvas.getContext("webgl2");
@@ -48,10 +49,13 @@
 
 					in vec2	f_uv;
 					
+					uniform	sampler2D	tex;
+
 					out vec4	fragColor;
 
 					void	main() {
-						fragColor = vec4(f_uv, 0.0, 1.0);
+						fragColor = texture(tex, f_uv);
+						// fragColor = vec4(f_uv, 0.0, 1.0);
 					}`);
 					vs.compile();
 					fs.compile();
@@ -64,7 +68,7 @@
 					0.8, 0.8, 0.0, -0.8, 0.8, 0.0, 0.8, -0.8, 0.0, -0.8, -0.8, 0.0,
 					]);
 					const	uv = new Float32Array([
-						1.0, 1.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0
+						1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 1.0
 					]);
 					const	vertex_buffer = new Buffer(gl, gl.ARRAY_BUFFER, 48, gl.STATIC_DRAW);
 					vertex_buffer.setData(0, data, 0, 48);
@@ -77,6 +81,17 @@
 						"uv": uv_view
 					};
 					const	mesh = Mesh.from(gl, buffer_view, [0, 1, 2, 1, 2, 3]);
+					const	texture = new Texture2D(gl, gl.RGBA8, 256, 256, gl.RGBA8, gl.UNSIGNED_BYTE);
+					Loader.loadImage("./f-texture.png").then((image) => {
+						texture.setData(image);
+					});
+					Main.texture = texture;
+					const l = gl.getUniformLocation(program.id, "tex");
+					gl.activeTexture(gl.TEXTURE1);
+					Main.texture._bind();
+					gl.activeTexture(gl.TEXTURE0);
+					program.use();
+					gl.uniform1i(l, 0);
 
 					Main.gl = gl;
 					Main.program = program;
