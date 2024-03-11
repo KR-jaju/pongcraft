@@ -19,7 +19,7 @@ class Texture2D {
 	setData(image) {
 		this._bind();
 		this.gl.texSubImage2D(this.gl.TEXTURE_2D, 0, 0, 0, this.gl.RGBA, this.gl.UNSIGNED_BYTE, image);
-		// this._unbind();
+		this._unbind();
 	}
 	_bind() {
 		this.gl.bindTexture(this.gl.TEXTURE_2D, this.id);
