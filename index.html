@@ -1,6 +1,7 @@
 <html>
 	<body>
 		<canvas id="canvas">Canvas not supported</canvas>
+		<script src="graphics/Bitmap.js"></script>
 		<script src="graphics/Buffer.js"></script>
 		<script src="graphics/Shader.js"></script>
 		<script src="graphics/Program.js"></script>
@@ -10,6 +11,7 @@
 		<script src="graphics/VertexBuffer.js"></script>
 		<script src="graphics/Mesh.js"></script>
 		<script src="graphics/Texture2D.js"></script>
+		<script src="graphics/Texture2DArray.js"></script>
 		<script src="util/Loader.js"></script>
 		<!--<script type="module" src="graphics/graphics.js"></script>-->
 		<script>
@@ -46,15 +48,18 @@
 					}`);
 					fs.shaderSource(`#version 300 es
 					precision mediump float;
+					precision mediump sampler2DArray;
 
 					in vec2	f_uv;
 					
 					uniform	sampler2D	tex;
+					uniform sampler2DArray	texarr;
 
 					out vec4	fragColor;
 
 					void	main() {
-						fragColor = texture(tex, f_uv);
+						// fragColor = texture(tex, f_uv);
+						fragColor = texture(texarr, vec3(f_uv, 0.0));
 						// fragColor = vec4(f_uv, 0.0, 1.0);
 					}`);
 					vs.compile();
@@ -81,17 +86,25 @@
 						"uv": uv_view
 					};
 					const	mesh = Mesh.from(gl, buffer_view, [0, 1, 2, 1, 2, 3]);
-					const	texture = new Texture2D(gl, gl.RGBA8, 256, 256, gl.RGBA8, gl.UNSIGNED_BYTE);
+					// const	texture = new Texture2D(gl, gl.RGBA8, 256, 256, gl.RGBA8, gl.UNSIGNED_BYTE);
+					// Loader.loadImage("./f-texture.png").then((image) => {
+						// const	bitmap = Bitmap.from(image);
+						// texture.setData(bitmap);
+					// });
+					const	texArray = new Texture2DArray(gl, gl.RGBA8, 256, 256, 1);
 					Loader.loadImage("./f-texture.png").then((image) => {
-						texture.setData(image);
+						const	bitmap = Bitmap.from(image);
+						texArray.setData(0, bitmap);
 					});
-					Main.texture = texture;
+					// Main.texture = texture;
 					const l = gl.getUniformLocation(program.id, "tex");
 					gl.activeTexture(gl.TEXTURE1);
-					Main.texture._bind();
+					// Main.texture._bind();
+					texArray._bind();
 					gl.activeTexture(gl.TEXTURE0);
 					program.use();
-					gl.uniform1i(l, 1);
+					// gl.uniform1i(l, 1);
+					gl.uniform1i(gl.getUniformLocation(program.id, "texarr"), 1);
 
 					Main.gl = gl;
 					Main.program = program;
