@@ -16,9 +16,9 @@ class Texture2D {
 		this.gl = gl;
 		this.id = texture;
 	}
-	setData(image) {
+	setData(bitmap) {
 		this._bind();
-		this.gl.texSubImage2D(this.gl.TEXTURE_2D, 0, 0, 0, this.gl.RGBA, this.gl.UNSIGNED_BYTE, image);
+		this.gl.texSubImage2D(this.gl.TEXTURE_2D, 0, 0, 0, bitmap.width, bitmap.height, this.gl.RGBA, this.gl.UNSIGNED_BYTE, bitmap.data);
 		this._unbind();
 	}
 	_bind() {
