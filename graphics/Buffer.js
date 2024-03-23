@@ -1,32 +1,31 @@
 
 class Buffer {
-	constructor(gl, type, size, usage) {
-		const	buffer = gl.createBuffer();
+	constructor(type, size, usage) {
+		const	buffer = gl_context.createBuffer();
 		const	data = new Float32Array([
 			-1, -1, 0,
 			1, -1, 0,
 			1, 1, 0
 		]);
-		gl.bindBuffer(type, buffer);
-		gl.bufferData(type, size, usage);
-		gl.bindBuffer(type, null);
+		gl_context.bindBuffer(type, buffer);
+		gl_context.bufferData(type, size, usage);
+		gl_context.bindBuffer(type, null);
 
 		this.id = buffer;
 		this.type = type;
 		this.size = size;
 		this.usage = usage;
-		this.gl = gl;
 	}
 	setData(dstByteOffset, srcData, srcOffset, size) {
 		const length = size / srcData.BYTES_PER_ELEMENT;
 		this._bind();
-		this.gl.bufferSubData(this.type, dstByteOffset, srcData, srcOffset, length);
+		gl_context.bufferSubData(this.type, dstByteOffset, srcData, srcOffset, length);
 		this._unbind();
 	}
 	_bind() {
-		this.gl.bindBuffer(this.type, this.id);
+		gl_context.bindBuffer(this.type, this.id);
 	}
 	_unbind() {
-		this.gl.bindBuffer(this.type, null);
+		gl_context.bindBuffer(this.type, null);
 	}
 }

@@ -1,6 +1,7 @@
 <html>
 	<body>
 		<canvas id="canvas">Canvas not supported</canvas>
+		<script src="graphics/GL.js"></script>
 		<script src="graphics/Bitmap.js"></script>
 		<script src="graphics/Buffer.js"></script>
 		<script src="graphics/Shader.js"></script>
@@ -13,8 +14,27 @@
 		<script src="graphics/Texture2D.js"></script>
 		<script src="graphics/Texture2DArray.js"></script>
 		<script src="util/Loader.js"></script>
-		<!--<script type="module" src="graphics/graphics.js"></script>-->
+		<script src="math/Vector2.js"></script>
+		<script src="math/Vector3.js"></script>
+		<script src="math/Direction.js"></script>
+		<script src="scene/Entity.js"></script>
+		<script src="scene/Scene.js"></script>
+		<script src="component/terrrain/Terrain.js"></script>
+		<script src="component/terrrain/Chunk.js"></script>
+		<script src="entity/OTerrain.js"></script>
+		<script src="Game.js"></script>
 		<script>
+			const	canvas = document.getElementById("canvas");
+			initGL(canvas);
+			const	game = new Game(canvas);
+			
+			function update() {
+				game.update();
+				requestAnimationFrame(update);
+			}
+			requestAnimationFrame(update);
+		</script>
+		<!-- <script>
 			"use strict";
 			class Main {
 				static gl = null;
@@ -121,6 +141,6 @@
 			}
 			// requestAnimationFrame(Main.entry);
 			Main.entry();
-		</script>
+		</script> -->
 	</body>
 </html>

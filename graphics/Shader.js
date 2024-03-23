@@ -11,17 +11,16 @@ let	shader_id;
 */
 
 class Shader {
-	constructor(gl, type) {
-		const shader = gl.createShader(type);
+	constructor(type) {
+		const shader = gl_context.createShader(type);
 
 		this.id = shader;
-		this.gl = gl;
 	}
 	shaderSource(source) {
-		this.gl.shaderSource(this.id, source);
+		gl_context.shaderSource(this.id, source);
 	}
 	compile() {
-		this.gl.compileShader(this.id);
-		console.log(this.gl.getShaderInfoLog(this.id));
+		gl_context.compileShader(this.id);
+		console.log(gl_context.getShaderInfoLog(this.id));
 	}
 }

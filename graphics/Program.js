@@ -4,23 +4,22 @@ class Program {
 		"position": 0,
 		"uv": 1
 	};
-	constructor(gl) {
-		const	program = gl.createProgram();
+	constructor() {
+		const	program = gl_context.createProgram();
 
 		for (const attribute in Program.attribute_location) {
 			const	location = Program.attribute_location[attribute];
-			gl.bindAttribLocation(program, location, attribute);
+			gl_context.bindAttribLocation(program, location, attribute);
 		}
 		this.id = program;
-		this.gl = gl;
 	}
 	attach(shader) {
-		this.gl.attachShader(this.id, shader.id);
+		gl_context.attachShader(this.id, shader.id);
 	}
 	link() {
-		this.gl.linkProgram(this.id);
+		gl_context.linkProgram(this.id);
 	}
 	use() {
-		this.gl.useProgram(this.id);
+		gl_context.useProgram(this.id);
 	}
 }
