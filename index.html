@@ -25,7 +25,8 @@
 		<script src="Game.js"></script>
 		<script>
 			const	canvas = document.getElementById("canvas");
-			initGL(canvas);
+			const	gl = canvas.getContext("webgl2");
+			glMakeCurrent(gl);
 			const	game = new Game(canvas);
 			
 			function update() {
