@@ -4,8 +4,8 @@ internalFormat - format table
 https://registry.khronos.org/webthis.gl/specs/latest/2.0/#TEXTURE_TYPES_FORMATS_FROM_DOM_ELEMENTS_TABLE
 */
 class Texture2D {
-	constructor(gl, internalformat, width, height) {
-		this.gl = gl;
+	constructor(gc, internalformat, width, height) {
+		this.gl = gc.getGL();
 		const	texture = this.gl.createTexture();
 		
 		this.gl.bindTexture(this.gl.TEXTURE_2D, texture);

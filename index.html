@@ -1,7 +1,7 @@
 <html>
 	<body>
 		<canvas id="canvas">Canvas not supported</canvas>
-		<script src="graphics/GL.js"></script>
+		<script src="graphics/GraphicsContext.js"></script>
 		<script src="graphics/Bitmap.js"></script>
 		<script src="graphics/Buffer.js"></script>
 		<script src="graphics/Shader.js"></script>
@@ -26,8 +26,8 @@
 		<script>
 			const	canvas = document.getElementById("canvas");
 			const	gl = canvas.getContext("webgl2");
-			glMakeCurrent(gl);
-			const	game = new Game(canvas);
+			const	gc = new GraphicsContext(gl);
+			const	game = new Game(gc);
 			
 			function update() {
 				game.update();

@@ -1,7 +1,7 @@
 
 class Framebuffer {
-	constructor(gl) {
-		this.gl = gl;
+	constructor(gc) {
+		this.gl = gc.getGL();
 		const framebuffer = this.gl.createFramebuffer();
 	
 		this.id = framebuffer;

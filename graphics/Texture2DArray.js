@@ -1,7 +1,7 @@
 
 class Texture2DArray {
-	constructor(gl, internalformat, width, height, depth) {
-		this.gl = gl;
+	constructor(gc, internalformat, width, height, depth) {
+		this.gl = gc.getGL();
 		const	texture = this.gl_context.createTexture();
 
 		this.gl.bindTexture(this.gl.TEXTURE_2D_ARRAY, texture);

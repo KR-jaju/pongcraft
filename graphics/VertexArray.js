@@ -1,7 +1,7 @@
 
 class VertexArray {
-	constructor(gl) {
-		this.gl = gl;
+	constructor(gc) {
+		this.gl = gc.getGL();
 		const vertex_array = this.gl.createVertexArray();
 		
 		this.id = vertex_array;

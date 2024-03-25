@@ -1,7 +1,7 @@
 
 class Mesh {
-	constructor(gl, indices) {
-		this.gl = gl;
+	constructor(gc, indices) {
+		this.gl = gc.getGL();
 		const	vertex_count = Math.max(...indices) + 1; // maybe slow
 		const	vertex_array = new VertexArray();
 		const	index_count = indices.length;

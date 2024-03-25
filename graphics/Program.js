@@ -4,8 +4,8 @@ class Program {
 		"position": 0,
 		"uv": 1
 	};
-	constructor(gl) {
-		this.gl = gl;
+	constructor(gc) {
+		this.gl = gc.getGL();
 		const	program = this.gl.createProgram();
 
 		for (const attribute in Program.attribute_location) {

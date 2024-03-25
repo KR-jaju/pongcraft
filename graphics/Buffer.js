@@ -1,7 +1,7 @@
 
 class Buffer {
-	constructor(gl, type, size, usage) {
-		this.gl = gl;
+	constructor(gc, type, size, usage) {
+		this.gl = gc.getGL();
 		const	buffer = this.gl.createBuffer();
 		this.gl.bindBuffer(type, buffer);
 		this.gl.bufferData(type, size, usage);

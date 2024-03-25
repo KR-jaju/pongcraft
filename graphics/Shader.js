@@ -11,8 +11,8 @@ let	shader_id;
 */
 
 class Shader {
-	constructor(gl, type) {
-		this.gl = gl;
+	constructor(gc, type) {
+		this.gl = gc.getGL();
 		const shader = this.gl.createShader(type);
 
 		this.id = shader;

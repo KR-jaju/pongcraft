@@ -1,7 +1,7 @@
 
 class VertexBuffer {
-	constructor(gl, buffer, size, type, normalized, stride = 0, offset = 0) {
-		this.gl = gl;
+	constructor(gc, buffer, size, type, normalized, stride = 0, offset = 0) {
+		this.gl = gc.getGL();
 		this.buffer = buffer;
 		this.size = size;
 		this.type = type;

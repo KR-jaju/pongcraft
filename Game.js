@@ -1,8 +1,8 @@
 
 class Game {
-	constructor(canvas) {
-		this.canvas = canvas;
-		this.gl = canvas.getContext("webgl2");
+	constructor(gc, ac) {
+		this.gc = gc;
+		this.ac = ac;
 		this.scene = new Scene();
 		let terrain = new OTerrain();
 		this.scene.add(terrain);
