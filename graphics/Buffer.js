@@ -2,11 +2,6 @@
 class Buffer {
 	constructor(type, size, usage) {
 		const	buffer = gl_context.createBuffer();
-		const	data = new Float32Array([
-			-1, -1, 0,
-			1, -1, 0,
-			1, 1, 0
-		]);
 		gl_context.bindBuffer(type, buffer);
 		gl_context.bufferData(type, size, usage);
 		gl_context.bindBuffer(type, null);
