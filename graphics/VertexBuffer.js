@@ -1,6 +1,7 @@
 
 class VertexBuffer {
-	constructor(buffer, size, type, normalized, stride = 0, offset = 0) {
+	constructor(gl, buffer, size, type, normalized, stride = 0, offset = 0) {
+		this.gl = gl;
 		this.buffer = buffer;
 		this.size = size;
 		this.type = type;
@@ -10,8 +11,8 @@ class VertexBuffer {
 	}
 	_bind(idx) {
 		this.buffer._bind();
-		gl_context.enableVertexAttribArray(idx);
-		gl_context.vertexAttribPointer(idx, this.size, this.type, this.normalized, this.stride, this.offset);
+		this.gl.enableVertexAttribArray(idx);
+		this.gl.vertexAttribPointer(idx, this.size, this.type, this.normalized, this.stride, this.offset);
 	}
 }
 //gl.bindBuffer(buffer);

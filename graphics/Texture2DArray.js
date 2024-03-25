@@ -1,13 +1,14 @@
 
 class Texture2DArray {
-	constructor(internalformat, width, height, depth) {
-		const	texture = gl_context_context.createTexture();
+	constructor(gl, internalformat, width, height, depth) {
+		this.gl = gl;
+		const	texture = this.gl_context.createTexture();
 
-		gl_context.bindTexture(gl_context.TEXTURE_2D_ARRAY, texture);
-		gl_context.texParameteri(gl_context.TEXTURE_2D_ARRAY, gl_context.TEXTURE_MIN_FILTER, gl_context.LINEAR);
-		gl_context.texParameteri(gl_context.TEXTURE_2D_ARRAY, gl_context.TEXTURE_MAG_FILTER, gl_context.LINEAR);
-		gl_context.texStorage3D(gl_context.TEXTURE_2D_ARRAY, 1, internalformat, width, height, depth);
-		gl_context.bindTexture(gl_context.TEXTURE_2D_ARRAY, null);
+		this.gl.bindTexture(this.gl.TEXTURE_2D_ARRAY, texture);
+		this.gl.texParameteri(this.gl.TEXTURE_2D_ARRAY, this.gl.TEXTURE_MIN_FILTER, this.gl.LINEAR);
+		this.gl.texParameteri(this.gl.TEXTURE_2D_ARRAY, this.gl.TEXTURE_MAG_FILTER, this.gl.LINEAR);
+		this.gl.texStorage3D(this.gl.TEXTURE_2D_ARRAY, 1, internalformat, width, height, depth);
+		this.gl.bindTexture(this.gl.TEXTURE_2D_ARRAY, null);
 
 		this.id = texture;
 		this.width = width;
@@ -16,13 +17,13 @@ class Texture2DArray {
 	}
 	setData(idx, bitmap) {
 		this._bind();
-		gl_context.texSubImage3D(gl_context.TEXTURE_2D_ARRAY, 0, 0, 0, idx, bitmap.width, bitmap.height, 1, gl_context.RGBA, gl_context.UNSIGNED_BYTE, bitmap.data);
+		this.gl.texSubImage3D(this.gl.TEXTURE_2D_ARRAY, 0, 0, 0, idx, bitmap.width, bitmap.height, 1, this.gl.RGBA, this.gl.UNSIGNED_BYTE, bitmap.data);
 		this._unbind();
 	}
 	_bind() {
-		gl_context.bindTexture(gl_context.TEXTURE_2D_ARRAY, this.id);
+		this.gl.bindTexture(this.gl.TEXTURE_2D_ARRAY, this.id);
 	}
 	_unbind() {
-		gl_context.bindTexture(gl_context.TEXTURE_2D_ARRAY, null);
+		this.gl.bindTexture(this.gl.TEXTURE_2D_ARRAY, null);
 	}
 }

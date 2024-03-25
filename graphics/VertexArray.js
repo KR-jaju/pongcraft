@@ -1,19 +1,20 @@
 
 class VertexArray {
-	constructor() {
-		const vertex_array = gl_context.createVertexArray();
+	constructor(gl) {
+		this.gl = gl;
+		const vertex_array = this.gl.createVertexArray();
 		
 		this.id = vertex_array;
 	}
 	attach(vbo, idx) {
-		gl_context.bindVertexArray(this.id);
+		this.gl.bindVertexArray(this.id);
 		vbo._bind(idx);
-		gl_context.bindVertexArray(null);
+		this.gl.bindVertexArray(null);
 	}
 	_bind() {
-		gl_context.bindVertexArray(this.id);
+		this.gl.bindVertexArray(this.id);
 	}
 	_unbind() {
-		gl_context.bindVertexArray(null);
+		this.gl.bindVertexArray(null);
 	}
 }

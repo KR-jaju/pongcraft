@@ -1,11 +1,12 @@
 
 class Mesh {
-	constructor(indices) {
+	constructor(gl, indices) {
+		this.gl = gl;
 		const	vertex_count = Math.max(...indices) + 1; // maybe slow
 		const	vertex_array = new VertexArray();
 		const	index_count = indices.length;
 		const	index_data = new Int32Array(indices);
-		const	index_buffer = new Buffer(gl_context.ELEMENT_ARRAY_BUFFER, index_count * 4, gl_context.STATIC_DRAW);
+		const	index_buffer = new Buffer(this.gl.ELEMENT_ARRAY_BUFFER, index_count * 4, this.gl.STATIC_DRAW);
 
 		index_buffer.setData(0, index_data, 0, index_count * 4);
 		vertex_array._bind();
@@ -26,15 +27,15 @@ class Mesh {
 		this.vertex_array._unbind();
 	}
 	draw(program) {
-		const	mode = gl_context.TRIANGLES;
+		const	mode = this.gl.TRIANGLES;
 		const	count = this.index_count;
-		const	type = gl_context.UNSIGNED_INT;
+		const	type = this.gl.UNSIGNED_INT;
 		const	offset = 0;
 	
 		program.use();
 		this.vertex_array._bind();
-		// gl_context.drawElements(mode, count, type, offset);
-		gl_context.drawElements(mode, count, type, offset);
+		// this.gl.drawElements(mode, count, type, offset);
+		this.gl.drawElements(mode, count, type, offset);
 		this.vertex_array._unbind();
 	}
 	//Mesh.from(gl, [a, b, c])

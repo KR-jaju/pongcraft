@@ -1,7 +1,8 @@
 
 class Framebuffer {
-	constructor() {
-		const framebuffer = gl_context.createFramebuffer();
+	constructor(gl) {
+		this.gl = gl;
+		const framebuffer = this.gl.createFramebuffer();
 	
 		this.id = framebuffer;
 		this.r = 0;
@@ -16,9 +17,9 @@ class Framebuffer {
 		this.a = a;
 	}
 	clearColor() {
-		gl_context.bindFramebuffer(gl_context.FRAMEBUFFER, this.id);
-		gl_context.clearColor(this.r, this.g, this.b, this.a);
-		gl_context.clear(gl_context.COLOR_BUFFER_BIT);
-		gl_context.bindFramebuffer(gl_context.FRAMEBUFFER, null);
+		this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, this.id);
+		this.gl.clearColor(this.r, this.g, this.b, this.a);
+		this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+		this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
 	}
 }

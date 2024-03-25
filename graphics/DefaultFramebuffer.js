@@ -12,9 +12,9 @@ class DefaultFramebuffer {
 		DefaultFramebuffer.a = a;
 	}
 	static clearColor() {
-		gl_context.bindFramebuffer(gl_context.FRAMEBUFFER, null);
-		gl_context.clearColor(DefaultFramebuffer.r, DefaultFramebuffer.g, DefaultFramebuffer.b, DefaultFramebuffer.a);
-		gl_context.clear(gl_context.COLOR_BUFFER_BIT);
+		this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+		this.gl.clearColor(DefaultFramebuffer.r, DefaultFramebuffer.g, DefaultFramebuffer.b, DefaultFramebuffer.a);
+		this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 	}
 }
 

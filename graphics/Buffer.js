@@ -1,10 +1,11 @@
 
 class Buffer {
-	constructor(type, size, usage) {
-		const	buffer = gl_context.createBuffer();
-		gl_context.bindBuffer(type, buffer);
-		gl_context.bufferData(type, size, usage);
-		gl_context.bindBuffer(type, null);
+	constructor(gl, type, size, usage) {
+		this.gl = gl;
+		const	buffer = this.gl.createBuffer();
+		this.gl.bindBuffer(type, buffer);
+		this.gl.bufferData(type, size, usage);
+		this.gl.bindBuffer(type, null);
 
 		this.id = buffer;
 		this.type = type;
@@ -14,13 +15,13 @@ class Buffer {
 	setData(dstByteOffset, srcData, srcOffset, size) {
 		const length = size / srcData.BYTES_PER_ELEMENT;
 		this._bind();
-		gl_context.bufferSubData(this.type, dstByteOffset, srcData, srcOffset, length);
+		this.gl.bufferSubData(this.type, dstByteOffset, srcData, srcOffset, length);
 		this._unbind();
 	}
 	_bind() {
-		gl_context.bindBuffer(this.type, this.id);
+		this.gl.bindBuffer(this.type, this.id);
 	}
 	_unbind() {
-		gl_context.bindBuffer(this.type, null);
+		this.gl.bindBuffer(this.type, null);
 	}
 }
