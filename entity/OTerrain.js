@@ -1,7 +1,6 @@
 
 class OTerrain extends Entity {
 	constructor() {
-		super();
 		this.terrain = new Terrain(this);
 	
 		this.terrain.setChunk(0, 0, 0, new Chunk());
