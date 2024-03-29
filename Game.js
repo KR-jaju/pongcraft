@@ -1,6 +1,6 @@
 
 class Game {
-	constructor(gc, ac) {
+	constructor(gc, ac = null) {
 		this.gc = gc;
 		this.ac = ac;
 		this.scene = new Scene();
