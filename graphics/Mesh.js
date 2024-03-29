@@ -9,9 +9,9 @@ class Mesh {
 		const	index_buffer = new Buffer(this.gl.ELEMENT_ARRAY_BUFFER, index_count * 4, this.gl.STATIC_DRAW);
 
 		index_buffer.setData(0, index_data, 0, index_count * 4);
-		vertex_array._bind();
-		index_buffer._bind();
-		vertex_array._unbind();
+		vertex_array.bind();
+		index_buffer.bind();
+		vertex_array.unbind();
 		this.vertex_array = vertex_array;
 		this.index_count = index_count;
 		this.index_data = index_data;
@@ -22,9 +22,9 @@ class Mesh {
 		if (!(attrib_name in Program.attribute_location))
 			throw new Error("Undefined attribute name");
 		const location = Program.attribute_location[attrib_name];
-		this.vertex_array._bind();
-		vertex_buffer._bind(location);
-		this.vertex_array._unbind();
+		this.vertex_array.bind();
+		vertex_buffer.bind(location);
+		this.vertex_array.unbind();
 	}
 	draw(program) {
 		const	mode = this.gl.TRIANGLES;
@@ -33,10 +33,10 @@ class Mesh {
 		const	offset = 0;
 	
 		program.use();
-		this.vertex_array._bind();
+		this.vertex_array.bind();
 		// this.gl.drawElements(mode, count, type, offset);
 		this.gl.drawElements(mode, count, type, offset);
-		this.vertex_array._unbind();
+		this.vertex_array.unbind();
 	}
 	//Mesh.from(gl, [a, b, c])
 	static from(gl, vertex_buffers, indices) {

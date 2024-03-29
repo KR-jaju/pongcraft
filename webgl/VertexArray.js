@@ -12,10 +12,10 @@ class VertexArray {
 		this.gl.bindBuffer(this.gl.ARRAY_BUFFER, null);
 		this.gl.bindVertexArray(null);
 	}
-	_bind() {
+	bind() {
 		this.gl.bindVertexArray(this.id);
 	}
-	_unbind() {
+	unbind() {
 		this.gl.bindVertexArray(null);
 	}
 }

@@ -11,14 +11,14 @@ class Texture2D {
 		this.height = height;
 	}
 	setData(bitmap) { // 삭제 예정
-		this._bind();
+		this.bind();
 		this.gl.texSubImage2D(this.gl.TEXTURE_2D, 0, 0, 0, bitmap.width, bitmap.height, this.gl.RGBA, this.gl.UNSIGNED_BYTE, bitmap.data);
-		this._unbind();
+		this.unbind();
 	}
-	_bind() {
+	bind() {
 		this.gl.bindTexture(this.gl.TEXTURE_2D, this.id);
 	}
-	_unbind() {
+	unbind() {
 		this.gl.bindTexture(this.gl.TEXTURE_2D, null);
 	}
 	static from(gl, src) { // 이것도 삭제 예정

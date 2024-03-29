@@ -5,30 +5,30 @@ class Framebuffer {
 		this.id = id;
 	}
 	clearColor(r = 0.4, g = 0.4, b = 0.4, a = 1.0) {
-		this._bind();
+		this.bind();
 		this.gl.clearColor(r, g, b, a);
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT);
-		this._unbind();
+		this.unbind();
 	}
 	clearDepth(depth = 1.0) {
-		this._bind();
+		this.bind();
 		this.gl.clearDepth(depth);
 		this.gl.clear(this.gl.DEPTH_BUFFER_BIT);
-		this._unbind();
+		this.unbind();
 	}
 	draw(vertex_array, vertex_count, program) {
-		this._bind();
-		program._use();
-		vertex_array._bind();
+		this.bind();
+		program.use();
+		vertex_array.bind();
 		this.gl.drawElements(this.gl.GL_TRIANGLES, vertex_count, this.gl.UNSIGNED_INT, 0);
-		vertex_array._unbind();
-		program._unuse();
-		this._unbind();
+		vertex_array.unbind();
+		program.unuse();
+		this.unbind();
 	}
-	_bind() {
+	bind() {
 		this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, this.id);
 	}
-	_unbind() {
+	unbind() {
 		this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
 	}
 }
